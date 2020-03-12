@@ -133,13 +133,16 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void setTabIcons() {
-        tabLayout.getTabAt(0).setIcon(R.drawable.search).getIcon()
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_qr).getIcon()
                 .setColorFilter(getResources()
                         .getColor(R.color.tabIconColor), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(1).setIcon(R.drawable.category).getIcon()
+        tabLayout.getTabAt(1).setIcon(R.drawable.search).getIcon()
                 .setColorFilter(getResources()
                         .getColor(R.color.tabIconColor), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(2).setIcon(R.drawable.percent).getIcon()
+        tabLayout.getTabAt(2).setIcon(R.drawable.category).getIcon()
+                .setColorFilter(getResources()
+                        .getColor(R.color.tabIconColor), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(3).setIcon(R.drawable.percent).getIcon()
                 .setColorFilter(getResources()
                         .getColor(R.color.tabIconColor), PorterDuff.Mode.SRC_IN);
     }

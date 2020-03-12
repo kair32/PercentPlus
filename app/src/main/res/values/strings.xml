@@ -5,4 +5,7 @@
     <string name="pref_token">com.example.preference_token</string>
     <string name="pref_password">com.example.preference_password</string>
     <string name="pref_id">com.example.preference_id</string>
+    
+    <string name="read_qr">Считывание QR-кода</string>
+    <string name="start">Начать</string>
 </resources>

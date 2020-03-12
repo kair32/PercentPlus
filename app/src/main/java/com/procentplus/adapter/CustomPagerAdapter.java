@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.procentplus.fragments.BonusFragment;
 import com.procentplus.fragments.CategoryFragment;
+import com.procentplus.fragments.QrScannerFragment;
 import com.procentplus.fragments.SearchFragment;
 
 public class CustomPagerAdapter extends FragmentPagerAdapter {
@@ -22,9 +23,10 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new SearchFragment();
-            case 1: return new CategoryFragment();
-            case 2:
+            case 0: return new QrScannerFragment();
+            case 1: return new SearchFragment();
+            case 2: return new CategoryFragment();
+            case 3:
                 final BonusFragment bonusFragment = new BonusFragment();
                 bonusFragment.setArguments(this.data);
                 return bonusFragment;
@@ -34,16 +36,17 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0: return "Поиск";
-            case 1: return "Категория";
-            case 2: return "Бонус";
+            case 0: return "Сканировать";
+            case 1: return "Поиск";
+            case 2: return "Категория";
+            case 3: return "Бонус";
             default: return null;
         }
     }
