@@ -33,7 +33,7 @@ public class Bonus {
         private Integer sumTo;
         @SerializedName("percent")
         @Expose
-        private String percent;
+        private String percent = "6";
 
         public Integer getId() {
             return id;
