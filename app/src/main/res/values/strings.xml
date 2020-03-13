@@ -8,4 +8,10 @@
     
     <string name="read_qr">Считывание QR-кода</string>
     <string name="start">Начать</string>
+    <string name="current_purchase">Данные о текущей покупке</string>
+    <string name="amount_order">Сумма покупки, руб.</string>
+    <string name="client">Клиент:</string>
+    <string name="calculate_amount">Рассчитать сумму к оплате</string>
+    <string name="complete">Завершить</string>
+    <string name="for_payment">К оплате</string>
 </resources>
