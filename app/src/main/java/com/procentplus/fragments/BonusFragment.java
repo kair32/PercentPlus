@@ -38,10 +38,12 @@ import com.procentplus.retrofit.models.BonusRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 import kotlin.TuplesKt;
 import kotlin.collections.MapsKt;
 import kotlin.jvm.functions.Function2;
+import kotlin.text.StringsKt;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -97,8 +99,7 @@ public class BonusFragment extends Fragment implements View.OnClickListener {
         how_to_get_percent.setOnClickListener(this);
 
         getBonus(binding.getRoot());
-        createQR(BuildConfig.APPLICATION_ID + "|" + object_name + "|" + object_id + "|15");
-
+        createQR(BuildConfig.APPLICATION_ID + "//" + "object_name" + "//" + object_id + "//15");
         return binding.getRoot();
     }
 

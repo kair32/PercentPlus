@@ -16,4 +16,5 @@
     <string name="for_payment">К оплате</string>
     <string name="camera_denied">Невозможно подключиться к камере</string>
     <string name="camera_permission">Включить</string>
+    <string name="rub">руб.</string>
 </resources>

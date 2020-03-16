@@ -34,6 +34,9 @@
             android:name="com.procentplus.activities.RestorePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.ActivityCalculate"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.procentplus.activities.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity android:name="com.procentplus.activities.ConfirmEmailActivity"

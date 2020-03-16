@@ -19,12 +19,12 @@ import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.procentplus.BuildConfig;
 import com.procentplus.Permission;
+import com.procentplus.R;
+import com.procentplus.activities.ActivityCalculate;
 import com.procentplus.databinding.FragmentScannerBinding;
-import com.procentplus.retrofit.RetrofitClient;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
 
 public class QrScannerFragment extends Fragment implements BarcodeCallback {
     public ObservableBoolean isCameraPermission = new ObservableBoolean(false);
@@ -66,7 +66,16 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
     public void barcodeResult(BarcodeResult result) {
         Log.d(tag, "result = " + result.getText());
         String str = result.getText();
-        String[] s = str.split(BuildConfig.APPLICATION_ID);
+        String regex = "//";
+        String[] s = str.split(regex);
+        if (s.length!=4)return;
+        if (!s[0].equals(BuildConfig.APPLICATION_ID)) return;
+
+        Intent intent = new Intent(getContext(), ActivityCalculate.class);
+        intent.putExtra("userName", s[1]);
+        intent.putExtra("userId", s[2]);
+        intent.putExtra("userBonus", s[3]);
+        startActivity(intent);
     }
 
     public void onPermission(){
