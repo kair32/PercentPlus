@@ -14,4 +14,6 @@
     <string name="calculate_amount">Рассчитать сумму к оплате</string>
     <string name="complete">Завершить</string>
     <string name="for_payment">К оплате</string>
+    <string name="camera_denied">Невозможно подключиться к камере</string>
+    <string name="camera_permission">Включить</string>
 </resources>

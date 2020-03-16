@@ -25,6 +25,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.procentplus.BuildConfig;
 import com.procentplus.R;
 import com.procentplus.activities.LegendActivity;
 import com.procentplus.activities.MainActivity;
@@ -96,7 +97,7 @@ public class BonusFragment extends Fragment implements View.OnClickListener {
         how_to_get_percent.setOnClickListener(this);
 
         getBonus(binding.getRoot());
-        createQR(object_name + "|" + object_id + "|15");
+        createQR(BuildConfig.APPLICATION_ID + "|" + object_name + "|" + object_id + "|15");
 
         return binding.getRoot();
     }

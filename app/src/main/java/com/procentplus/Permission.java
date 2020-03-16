@@ -6,8 +6,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 
 public class Permission {
 
@@ -20,15 +21,17 @@ public class Permission {
         permissionStatusCAMERA = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
     }
 
-    public void requestCamera(){
+    public Boolean requestCamera(Fragment fragment){
         if (permissionStatusCAMERA == PackageManager.PERMISSION_GRANTED){
             Log.d("TAP", " = permission granted");
+            return true;
         }
         else {
             Log.d("TAP", " = permission zapros");
-            ActivityCompat.requestPermissions((Activity) mcontext, new String[]{
-                            Manifest.permission.CAMERA},
+            fragment.requestPermissions(
+                    new String[]{Manifest.permission.CAMERA},
                     REQUEST_CODE_PERMISSION_READ_ALL);
+            return false;
         }
     }
 }
