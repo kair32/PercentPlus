@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#8c1476</color>
     <color name="colorAccent">#FF4081</color>
     <color name="tabIconColor">#fff</color>
+    <color name="separatorColor">#C1C1C1</color>
 </resources>

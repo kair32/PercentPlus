@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.procentplus.activities.MainActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,24 +24,27 @@
         </activity>
         <activity
             android:name="com.procentplus.activities.ObjectsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.procentplus.activities.LegendActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.procentplus.activities.AuthActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.procentplus.activities.BonusActivity"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.procentplus.activities.RestorePasswordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".activities.ActivityCalculate"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.procentplus.activities.RegisterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity android:name="com.procentplus.activities.ConfirmEmailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="fullSensor"/>
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:clearTaskOnLaunch="true"
             android:screenOrientation="fullSensor"

@@ -17,4 +17,10 @@
     <string name="camera_denied">Невозможно подключиться к камере</string>
     <string name="camera_permission">Включить</string>
     <string name="rub">руб.</string>
+    <string name="description">Покажите при оплате</string>
+    <string name="acts">Действует во всех заведениях-партнерах PercentPlus</string>
+    <string name="name">Имя:</string>
+    <string name="email">E-mail:</string>
+    <string name="empty_name">Имя не указано</string>
+    <string name="empty_email">E-mail не указан</string>
 </resources>

@@ -24,14 +24,9 @@ import com.procentplus.SharedPrefs.PrefConfig;
 import com.procentplus.adapter.CustomPagerAdapter;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.GetUser;
-import com.procentplus.retrofit.interfaces.IAuthorization;
 import com.procentplus.retrofit.models.AuthResponse;
-import com.procentplus.retrofit.models.MobileUser;
-import com.procentplus.retrofit.models.SignRequest;
 
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -133,7 +128,7 @@ public class MainActivity extends FragmentActivity {
 
     private void initViewPager() {
         Log.d(tag, "initViewPager ");
-        pagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), objectNameBundle, isOperator);
+        pagerAdapter = new CustomPagerAdapter(getSupportFragmentManager(), objectNameBundle, userDetail);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(pagerAdapter);
         if (getIntent().getIntExtra("tab_id", -1) != -1)
@@ -162,11 +157,11 @@ public class MainActivity extends FragmentActivity {
                 .getColor(R.color.tabIconColor), PorterDuff.Mode.SRC_IN));
     }
 
+    private AuthResponse userDetail;
     private void getUser() {
         animateLogo();
 
         GetUser user = retrofit.create(GetUser.class);
-
         Call<AuthResponse> authResponseCall = user.getUser(prefConfig.readId(),prefConfig.readToken());
 
         authResponseCall.enqueue(new Callback<AuthResponse>() {
@@ -175,8 +170,10 @@ public class MainActivity extends FragmentActivity {
                 int statusCode = response.code();
                 Log.d("LOGGER Auth", "statusCode: " + statusCode);
                 if (statusCode == 200) {
-                    if (response.body() != null && response.body().getIsOperator()!=null)
-                    isOperator = response.body().getIsOperator();
+                    if (response.body() != null && response.body().getIsOperator()!=null) {
+                        isOperator = response.body().getIsOperator();
+                        userDetail = response.body();
+                    }
                 } else {
                     // hide dialog
                     MainActivity.prefConfig.displayToast("Email или пароль были введены неверно!");
@@ -188,7 +185,6 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                // hide dialog
                 MainActivity.prefConfig.displayToast("Произошла ошибка при попытке авторизации, попытайтесь снова.");
                 preloader_view.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.VISIBLE);

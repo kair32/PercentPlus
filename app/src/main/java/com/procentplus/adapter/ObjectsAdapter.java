@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.procentplus.activities.BonusActivity;
 import com.procentplus.activities.MainActivity;
 import com.procentplus.R;
 import com.procentplus.retrofit.models.Objects;
@@ -41,8 +42,7 @@ public class ObjectsAdapter extends RecyclerView.Adapter<ObjectsAdapter.ViewHold
         holder.objectsItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.putExtra("tab_id", 2);
+                Intent intent = new Intent(view.getContext(), BonusActivity.class);
                 intent.putExtra("object_name", object.getName());
                 intent.putExtra("object_id", object.getId());
                 view.getContext().startActivity(intent);
