@@ -1,17 +1,14 @@
 package com.procentplus.activities;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,14 +16,12 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
-import com.google.zxing.BarcodeFormat;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.procentplus.BuildConfig;
 import com.procentplus.CreateQr;
 import com.procentplus.R;
 import com.procentplus.databinding.ActivityBonusBinding;
+import com.procentplus.legend.LegendActivity;
 import com.procentplus.retrofit.RetrofitClient;
-import com.procentplus.retrofit.interfaces.IBonus;
+import com.procentplus.retrofit.interfaces.PartnerBonus;
 import com.procentplus.retrofit.models.Bonus;
 import com.procentplus.retrofit.models.BonusRequest;
 
@@ -43,7 +38,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
     private String object_name = "";
     private int object_id = -1;
 
-    private IBonus iBonus;
+    private PartnerBonus iBonus;
     private Retrofit retrofit;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.getDefault());
@@ -75,6 +70,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
         how_to_get_percent.setPaintFlags(how_to_get_percent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         how_to_get_percent.setOnClickListener(this);
 
+        binding.legendBackBtn.setOnClickListener(v -> onBackPressed());
         getBonus(binding.getRoot());
         new CreateQr(object_name, object_id, binding.ivQr);
 
@@ -94,9 +90,9 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void getBonus(final View view) {
-        iBonus = retrofit.create(IBonus.class);
+        iBonus = retrofit.create(PartnerBonus.class);
 
-        Call<Bonus> bonusCall = iBonus.getBonus(
+        Call<Bonus> bonusCall = iBonus.getPartnerBonus(
                 MainActivity.prefConfig.readToken(),
                 new BonusRequest(object_id)
         );
@@ -151,6 +147,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
             case R.id.icon_info:
             case R.id.how_to_get_percent:
                 intent = new Intent(this, LegendActivity.class);
+                intent.putExtra("partner_id", object_id);
                 startActivity(intent);
                 break;
         }

@@ -38,22 +38,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
 
         final CategoriesResponse.ActivityType category = categoryList.get(position);
-        //holder.number.setText(String.valueOf(category.getId()));
-        try {
-            holder.categoryName.setText(category.getName().substring(0, 26
-            ) + "...");
-        } catch (Exception e) {
-            Log.d("LOGGER Adapter", "onBindViewHolder: " + e.getMessage());
-        }
+        holder.categoryName.setText(category.getName());
 
-        holder.categoryItemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ObjectsActivity.class);
-                intent.putExtra("category_name", category.getName());
-                intent.putExtra("category_id", category.getId());
-                view.getContext().startActivity(intent);
-            }
+        holder.categoryItemLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ObjectsActivity.class);
+            intent.putExtra("category_name", category.getName());
+            intent.putExtra("category_id", category.getId());
+            view.getContext().startActivity(intent);
         });
     }
 
@@ -65,13 +56,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView categoryName;
-        //TextView number;
         ConstraintLayout categoryItemLayout;
 
        public ViewHolder(@NonNull View itemView) {
            super(itemView);
            categoryName = itemView.findViewById(R.id.categoryName);
-           //number = itemView.findViewById(R.id.categoryNum);
            categoryItemLayout = itemView.findViewById(R.id.categoryItemLayout);
        }
     }
