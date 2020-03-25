@@ -1,5 +1,6 @@
 package com.procentplus.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import androidx.databinding.ObservableField;
 
 import com.procentplus.R;
 import com.procentplus.databinding.ActivityCalculateBinding;
+
+import java.util.Objects;
 
 public class ActivityCalculate extends AppCompatActivity {
     public String userName;
@@ -29,6 +32,9 @@ public class ActivityCalculate extends AppCompatActivity {
     }
 
     public void onEnter(){
+        String s = Objects.requireNonNull(sumText.get());
+        if (s.equals("")) s = "0";
+        if (Integer.parseInt(s)<=0) return;
         if (!isInputSum.get())  {
             setAmount();
             return;

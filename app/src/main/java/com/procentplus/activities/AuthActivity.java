@@ -99,7 +99,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getAuthResponse() {
-        iAuthorization = retrofit.create(IAuthorization.class);
+        IAuthorization iAuthorization = retrofit.create(IAuthorization.class);
 
         Call<AuthResponse> authResponseCall = iAuthorization.getAccountData(
                 new SignRequest(

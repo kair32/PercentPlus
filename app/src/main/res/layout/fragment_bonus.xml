@@ -163,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/new_font"
-                        android:text="До скидки 10% вам необходимо накопить еще 14456 руб. \nПо данным на 16.08.2018 Как накопить процент"
+                        android:text="До скидки 10% вам необходимо накопить еще 14456 руб. \nПо данным на 16.08.2018"
                         android:textSize="12sp" />
 
                     <TextView

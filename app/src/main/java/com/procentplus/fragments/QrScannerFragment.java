@@ -85,6 +85,7 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
     private void resumeScanner() {
         if (!cameraPreview.isActivated())
             cameraPreview.resume();
+        cameraPreview.decodeSingle(this);
     }
 
     private void pauseScanner() {

@@ -29,9 +29,15 @@ public class AuthResponse {
     @Expose
     private String updatedAt;
 
+    @SerializedName("is_operator")
+    @Expose
+    private Boolean isOperator;
+
     @SerializedName("errors")
     @Expose
     private List<ErrorsData> errors = null;
+
+    public Boolean getIsOperator(){return isOperator;}
 
     public List<ErrorsData> getErrors() {
         return errors;

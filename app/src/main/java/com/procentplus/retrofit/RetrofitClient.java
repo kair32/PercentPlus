@@ -29,6 +29,7 @@ public class RetrofitClient {
                     .client(client.build())
                     .build();
         }
+
         return ourInstance;
 
     }

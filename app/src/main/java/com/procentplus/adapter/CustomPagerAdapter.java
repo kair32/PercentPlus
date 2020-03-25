@@ -13,41 +13,40 @@ import com.procentplus.fragments.SearchFragment;
 
 public class CustomPagerAdapter extends FragmentPagerAdapter {
 
+    private Fragment[] fragments = new Fragment[] {new QrScannerFragment(),new SearchFragment(),new CategoryFragment(),createBonusFragment()};
+    private Fragment[] fragmentsSmall = new Fragment[] {new SearchFragment(),new CategoryFragment(),createBonusFragment()};
+    private String[] name = new String[] {"Сканировать", "Поиск", "Категория", "Бонус"};
+    private String[] nameSmall = new String[] {"Поиск", "Категория", "Бонус"};
     private Bundle data;
+    private Boolean isOperator;
 
-    public CustomPagerAdapter(FragmentManager fm, Bundle data) {
+    public CustomPagerAdapter(FragmentManager fm, Bundle data, Boolean isOperator) {
         super(fm);
         this.data = data;
+        this.isOperator = isOperator;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0: return new QrScannerFragment();
-            case 1: return new SearchFragment();
-            case 2: return new CategoryFragment();
-            case 3:
-                final BonusFragment bonusFragment = new BonusFragment();
-                bonusFragment.setArguments(this.data);
-                return bonusFragment;
-        }
-        return null;
+        if (isOperator) return fragments[position];
+        else return fragmentsSmall[position];
     }
 
+    private Fragment createBonusFragment(){
+        BonusFragment bonusFragment = new BonusFragment();
+        bonusFragment.setArguments(this.data);
+        return bonusFragment;
+    }
     @Override
     public int getCount() {
-        return 4;
+        if (isOperator) return fragments.length;
+        else            return fragmentsSmall.length;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0: return "Сканировать";
-            case 1: return "Поиск";
-            case 2: return "Категория";
-            case 3: return "Бонус";
-            default: return null;
-        }
+        if (isOperator) return name[position];
+        else return nameSmall[position];
     }
 }
