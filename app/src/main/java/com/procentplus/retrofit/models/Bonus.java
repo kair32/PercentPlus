@@ -4,53 +4,35 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Bonus {
-
-    @SerializedName("mobile_user_id")
+    @SerializedName("partner_id")
     @Expose
-    private Integer mobileUserId;
-    @SerializedName("bonus")
+    private Integer partnerId;
+    @SerializedName("user_id")
     @Expose
-    private BonusData bonus;
+    private Integer userId;
+    @SerializedName("current_discount")
+    @Expose
+    private String currentDiscount;
+    @SerializedName("balance")
+    @Expose
+    private Integer balance;
+    @SerializedName("next_bonus_discount")
+    @Expose
+    private Integer nextBonusDiscount;
+    @SerializedName("next_bonus_from")
+    @Expose
+    private Integer nextBonusFrom;
 
-    public Integer getMobileUserId() {
-        return mobileUserId;
-    }
-
-    public BonusData getBonus() {
-        return bonus;
-    }
-
-    public class BonusData {
-
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("sum_from")
-        @Expose
-        private Integer sumFrom;
-        @SerializedName("sum_to")
-        @Expose
-        private Integer sumTo;
-        @SerializedName("percent")
-        @Expose
-        private String percent = "6";
-
-        public Integer getId() {
-            return id;
-        }
-
-        public Integer getSumFrom() {
-            return sumFrom;
-        }
-
-        public Integer getSumTo() {
-            return sumTo;
-        }
-
-        public String getPercent() {
-            return percent;
-        }
-
-    }
-
+    public Integer getBalance() { return balance; }
+    public String getCurrentDiscount() { return currentDiscount; }
+    public Integer getNextBonusDiscount() { return nextBonusDiscount; }
+    public Integer getNextBonusFrom() { return nextBonusFrom; }
+    public Integer getPartnerId() { return partnerId; }
+    public Integer getUserId() { return userId; }
 }
+/*"partner_id": 0,
+"user_id": 0,
+“current_discount”: 0,
+“balance”: 0,
+"next_bonus_discount”: 0,
+"next_bonus_from”: 0*/

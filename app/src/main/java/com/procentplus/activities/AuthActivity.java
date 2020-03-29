@@ -18,6 +18,11 @@ import com.procentplus.retrofit.models.SignRequest;
 import com.procentplus.retrofit.models.AuthResponse;
 import com.procentplus.retrofit.models.MobileUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -129,7 +134,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     // hide dialog
                     progressDialog.dismissDialog();
-                    MainActivity.prefConfig.displayToast("Email или пароль были введены неверно!");
+                    try { MainActivity.prefConfig.displayToast( new JSONObject(response.errorBody().string()).getString("error_message"));}
+                    catch (JSONException | IOException e) { MainActivity.prefConfig.displayToast("Email или пароль были введены неверно!");  }
                 }
             }
 

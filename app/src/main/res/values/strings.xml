@@ -5,7 +5,8 @@
     <string name="pref_token">com.example.preference_token</string>
     <string name="pref_password">com.example.preference_password</string>
     <string name="pref_id">com.example.preference_id</string>
-    
+
+    <string name="error">Произошла ошибка, попытайтесь снова.</string>
     <string name="read_qr">Считывание QR-кода</string>
     <string name="start">Начать</string>
     <string name="current_purchase">Данные о текущей покупке</string>

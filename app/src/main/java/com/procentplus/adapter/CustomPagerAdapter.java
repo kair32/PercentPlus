@@ -21,7 +21,7 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.data = data;
         if (userDetail.getIsOperator()) {
-            fragments = new Fragment[] {new QrScannerFragment(),new SearchFragment(),new CategoryFragment(), createBonusFragment(userDetail)};
+            fragments = new Fragment[] {new QrScannerFragment(userDetail),new SearchFragment(),new CategoryFragment(), createBonusFragment(userDetail)};
             name = new String[] {"Сканировать", "Поиск", "Категория", "Бонус"};
         }
         else {

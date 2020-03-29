@@ -5,6 +5,8 @@ import android.graphics.PorterDuff;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.PagerAdapter;
@@ -71,18 +73,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         // if user isn't logged in
-        if (!prefConfig.readLoginStatus()) {
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-
-                            Intent auth_intent = new Intent(MainActivity.this, AuthActivity.class);
-                            startActivity(auth_intent);
-                            finish();
-
-                        }
-                    }, 1800);
-        }
+        if (!prefConfig.readLoginStatus()) startLoginActivity();
 
         if (getIntent().getIntExtra("tab_id", -1) != -1) {
             tabPosition = getIntent().getExtras().getInt("tab_id");
@@ -158,6 +149,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private AuthResponse userDetail;
+
     private void getUser() {
         animateLogo();
 
@@ -168,28 +160,36 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 int statusCode = response.code();
-                Log.d("LOGGER Auth", "statusCode: " + statusCode);
+                preloader_view.setVisibility(View.GONE);
                 if (statusCode == 200) {
-                    if (response.body() != null && response.body().getIsOperator()!=null) {
+                    if (response.body() != null && response.body().getIsOperator() != null) {
                         isOperator = response.body().getIsOperator();
                         userDetail = response.body();
+                        tabLayout.setVisibility(View.VISIBLE);
+                        initViewPager();
                     }
-                } else {
-                    // hide dialog
-                    MainActivity.prefConfig.displayToast("Email или пароль были введены неверно!");
                 }
-                preloader_view.setVisibility(View.GONE);
-                tabLayout.setVisibility(View.VISIBLE);
-                initViewPager();
+                else
+                    if (statusCode == 401)  startLoginActivity();
+                    else                    snackBarView();
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
-                MainActivity.prefConfig.displayToast("Произошла ошибка при попытке авторизации, попытайтесь снова.");
-                preloader_view.setVisibility(View.GONE);
-                tabLayout.setVisibility(View.VISIBLE);
-                initViewPager();
-            }
+            public void onFailure(Call<AuthResponse> call, Throwable t) { snackBarView(); }
         });
+    }
+
+    private void snackBarView(){
+        Snackbar.make(preloader_view, R.string.error, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Повторить?", v -> {
+                    getUser();
+                })
+                .show();
+    }
+
+    private void startLoginActivity(){
+        Intent auth_intent = new Intent(MainActivity.this, AuthActivity.class);
+        startActivity(auth_intent);
+        finish();
     }
 }

@@ -13,16 +13,13 @@ import com.procentplus.activities.MainActivity;
 import com.procentplus.databinding.ActivityLegendBinding;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.GetBonusList;
-import com.procentplus.retrofit.models.Bonus;
+import com.procentplus.retrofit.models.BonusData;
 import com.procentplus.retrofit.models.BonusList;
 import com.procentplus.retrofit.models.BonusRequest;
-import com.procentplus.retrofit.models.CategoriesResponse;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,7 +58,7 @@ public class LegendActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d("LOGGER Category", "statusCode: " + statusCode);
                 if (response.body()!=null) {
                     if (response.body().getBonus()!=null) {
-                        List<Bonus.BonusData> bonuses = response.body().getBonus();
+                        List<BonusData> bonuses = response.body().getBonus();
                         Collections.sort(bonuses, (contact, another) -> contact.getPercent().compareToIgnoreCase(another.getPercent()));
                         binding.rv.setAdapter(new LegendAdapter(bonuses));
                     }

@@ -18,10 +18,12 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.procentplus.BuildConfig;
+import com.procentplus.CreateQr;
 import com.procentplus.Permission;
 import com.procentplus.R;
 import com.procentplus.activities.ActivityCalculate;
 import com.procentplus.databinding.FragmentScannerBinding;
+import com.procentplus.retrofit.models.AuthResponse;
 
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
     private String tag = "QrScannerFragment";
     private FragmentScannerBinding binding;
     private DecoratedBarcodeView cameraPreview;
+    private AuthResponse userDetail;
+
+    public QrScannerFragment(AuthResponse userDetail){
+        this.userDetail = userDetail;
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -69,12 +76,14 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
         String regex = "//";
         String[] s = str.split(regex);
         if (s.length!=4)return;
-        if (!s[0].equals(BuildConfig.APPLICATION_ID)) return;
+        if (!s[0].equals(CreateQr.NAME)) return;
 
         Intent intent = new Intent(getContext(), ActivityCalculate.class);
         intent.putExtra("userName", s[1]);
-        intent.putExtra("userId", s[2]);
+        intent.putExtra("userId", Integer.parseInt(s[2]));
         intent.putExtra("userBonus", s[3]);
+        intent.putExtra("partnerId", userDetail.getPartnerId());
+        intent.putExtra("operatorId", userDetail.getId());
         startActivity(intent);
     }
 

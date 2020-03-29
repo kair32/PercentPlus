@@ -7,6 +7,10 @@ import androidx.databinding.BindingAdapter;
 /**
     login:      a022@ya.ru
     password:   qazwsxedc
+
+    Оператор
+    login:      bwwb77bo@yasellerbot.xyz
+    password:   qwertyuiop
  **/
 
 public class BindingAdapters {

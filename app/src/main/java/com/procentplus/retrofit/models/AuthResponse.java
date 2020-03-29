@@ -28,6 +28,9 @@ public class AuthResponse {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("partner_id")
+    @Expose
+    private Integer partnerId;
 
     @SerializedName("is_operator")
     @Expose
@@ -38,6 +41,8 @@ public class AuthResponse {
     private List<ErrorsData> errors = null;
 
     public Boolean getIsOperator(){return isOperator;}
+
+    public void setOperator(Boolean operator) { isOperator = operator; }
 
     public List<ErrorsData> getErrors() {
         return errors;
@@ -75,4 +80,5 @@ public class AuthResponse {
         return updatedAt;
     }
 
+    public Integer getPartnerId() { return partnerId; }
 }

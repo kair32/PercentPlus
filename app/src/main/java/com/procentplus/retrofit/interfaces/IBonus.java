@@ -1,6 +1,6 @@
 package com.procentplus.retrofit.interfaces;
 
-import com.procentplus.retrofit.models.Bonus;
+import com.procentplus.retrofit.models.BonusData;
 import com.procentplus.retrofit.models.BonusRequest;
 
 import retrofit2.Call;
@@ -13,7 +13,7 @@ public interface IBonus {
 
     @Headers("Content-Type: application/json")
     @POST("bonuses/current_bonus")
-    Call<Bonus> getBonus(@Header("Authorization") String authorization,
-                         @Body BonusRequest partner_id);
+    Call<BonusData> getBonus(@Header("Authorization") String authorization,
+                             @Body BonusRequest partner_id);
 
 }

@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.procentplus.databinding.ItemLegendBinding;
-import com.procentplus.retrofit.models.Bonus;
+import com.procentplus.retrofit.models.BonusData;
 
 import java.util.List;
 
@@ -18,15 +18,15 @@ public class LegendAdapter extends RecyclerView.Adapter<LegendAdapter.LegendView
             super(binding.getRoot());
             this.binding = binding;
         }
-        public void bind(Bonus.BonusData bonus) {
+        public void bind(BonusData bonus) {
             binding.setItem(bonus);
             String text = bonus.getPercent().substring(0,bonus.getPercent().length()-2) + "%";
             binding.tvPercent.setText(text);
         }
     }
 
-    private List<Bonus.BonusData> listBonus;
-    LegendAdapter(List<Bonus.BonusData> listBonus){ this.listBonus = listBonus; }
+    private List<BonusData> listBonus;
+    LegendAdapter(List<BonusData> listBonus){ this.listBonus = listBonus; }
 
     @NonNull
     @Override

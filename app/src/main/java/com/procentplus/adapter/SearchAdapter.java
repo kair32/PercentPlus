@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.procentplus.R;
+import com.procentplus.activities.BonusActivity;
 import com.procentplus.activities.MainActivity;
 import com.procentplus.retrofit.models.PointOfSale;
 import com.procentplus.retrofit.models.SearchResponse;
@@ -54,18 +55,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         }
 
         if (!isEmpty) {
-            holder.objectsItemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), MainActivity.class);
-                    intent.putExtra("tab_id", 2);
-                    intent.putExtra("object_name", object.getName());
-                    intent.putExtra("object_id", object.getPartnerId());
-                    view.getContext().startActivity(intent);
-                }
+            holder.objectsItemLayout.setOnClickListener(view -> {
+                Intent intent = new Intent(view.getContext(), BonusActivity.class);
+                intent.putExtra("object_name", object.getName());
+                intent.putExtra("object_id", object.getPartnerId());
+                view.getContext().startActivity(intent);
             });
         }
-
     }
 
     @Override

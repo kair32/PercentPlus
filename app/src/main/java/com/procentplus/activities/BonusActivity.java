@@ -102,9 +102,8 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<Bonus> call, Response<Bonus> response) {
                 int statusCode = response.code();
-                Log.d("LOGGER Bonus", "statusCode: " + statusCode);
                 if (statusCode == 200) {
-                    try {
+                    /*try {
                         if (response.body() == null || response.body().getBonus() == null) return;
                         TextView current_user_bonus = binding.currentUserBonus;
                         String percent_full_num = response.body().getBonus().getPercent();
@@ -130,7 +129,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
                         );
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
             }
             @Override

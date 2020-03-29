@@ -1,7 +1,9 @@
 package com.procentplus.retrofit.interfaces;
 
 import com.procentplus.retrofit.models.Bonus;
+import com.procentplus.retrofit.models.BonusData;
 import com.procentplus.retrofit.models.BonusRequest;
+import com.procentplus.retrofit.models.UserBonusRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,6 +16,21 @@ public interface PartnerBonus {
     @Headers("Content-Type: application/json")
     @POST("bonuses/user_bonus")
     Call<Bonus> getPartnerBonus(@Header("Authorization") String authorization,
-                         @Body BonusRequest partner_id);
+                                @Body BonusRequest partner_id);
+
+    @Headers("Content-Type: application/json")
+    @POST("bonuses/user_bonus")
+    Call<Bonus> getUserBonus(@Header("Authorization") String authorization,
+                                 @Body UserBonusRequest partner_id);
 
 }
+//bonuses/user_bonus
+
+//id пользователя
+//id партнера
+//текущий бонус
+//текущая сумма покупок
+//следующий бонус
+//слндующая сумма для бонуса
+//примечание/описание (сюда текст)
+

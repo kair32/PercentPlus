@@ -12,8 +12,8 @@ public class BonusList {
 
     @SerializedName("bonuses")
     @Expose
-    private List<Bonus.BonusData> bonuses;
+    private List<BonusData> bonuses;
 
-    public List<Bonus.BonusData> getBonus() { return bonuses; }
+    public List<BonusData> getBonus() { return bonuses; }
     public Integer getPartnerId() { return partnerId; }
 }
