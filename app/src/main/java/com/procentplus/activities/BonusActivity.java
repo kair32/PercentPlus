@@ -1,6 +1,7 @@
 package com.procentplus.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -8,8 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableField;
 
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -38,11 +39,9 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
     private String object_name = "";
     private int object_id = -1;
 
-    private PartnerBonus iBonus;
     private Retrofit retrofit;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.getDefault());
-    private SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
     private SimpleDateFormat dateFormat3 = new SimpleDateFormat("dd MMMM", Locale.getDefault());
 
     @Override
@@ -90,7 +89,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void getBonus(final View view) {
-        iBonus = retrofit.create(PartnerBonus.class);
+        PartnerBonus iBonus = retrofit.create(PartnerBonus.class);
 
         Call<Bonus> bonusCall = iBonus.getPartnerBonus(
                 MainActivity.prefConfig.readToken(),
@@ -103,33 +102,21 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<Bonus> call, Response<Bonus> response) {
                 int statusCode = response.code();
                 if (statusCode == 200) {
-                    /*try {
-                        if (response.body() == null || response.body().getBonus() == null) return;
-                        TextView current_user_bonus = binding.currentUserBonus;
-                        String percent_full_num = response.body().getBonus().getPercent();
-                        switch (percent_full_num) {
-                            case "5.0": current_user_bonus.setText("0%");
-                                break;
-                            case "7.0": current_user_bonus.setText("5%");
-                                break;
-                            case "10.0": current_user_bonus.setText("7%");
-                                break;
-                            case "15.0": current_user_bonus.setText("10%");
-                                break;
-                        }
-                        String percent = percent_full_num
-                                .substring(0, percent_full_num.length()-2);
-                        binding.tvBonusText.setText(
-                                "До скидки " +
-                                percent+
-                                "% вам необходимо накопить еще " +
-                                (response.body().getBonus().getSumTo()-response.body().getBonus().getSumFrom()) +
-                                " руб. По данным на " +
-                                getDate()
-                        );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
+                    if (response.body() ==  null)   return;
+                    Bonus bonus = response.body();
+                    binding.currentUserBonus.setText(bonus.getCurrentDiscount() + "%");
+                    String text = "0";
+                    if (bonus.getNextBonusFrom()!=null && bonus.getBalance() !=null)
+                        text = (bonus.getNextBonusFrom() - bonus.getBalance()) + "";
+
+                    if (bonus.getNextBonusFrom() == null || bonus.getNextBonusFrom() == 0)
+                        binding.tvBonusText.setText("На данный момент у партнера нет никаких бонусов");
+                    else binding.tvBonusText.setText("До скидки " +
+                            bonus.getNextBonusDiscount() +
+                            "% вам необходимо накопить еще " +
+                            text +
+                            " руб. \nПо данным на " +
+                            new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date()));
                 }
             }
             @Override
@@ -150,9 +137,5 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
         }
-    }
-
-    private String getDate() {
-        return dateFormat2.format(new Date());
     }
 }

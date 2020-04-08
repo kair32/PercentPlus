@@ -27,4 +27,5 @@
     <string name="legend_description">Скидка на карте постоянного покупателя\n зависит от общей суммы ваших покупок</string>
     <string name="legend_title">КАК НАКОПИТЬ ПРОЦЕНТ</string>
     <string name="from_rub">от %s руб</string>
+    <string name="text_bonus">До скидки %d вам необходимо накопить еще %d руб. \nПо данным на %d</string>
 </resources>
