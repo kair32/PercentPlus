@@ -37,9 +37,10 @@ import retrofit2.Retrofit;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public class AuthValue{
+    public static class AuthValue{
         public ObservableField<String> phone = new ObservableField<>("");
         public ObservableField<String> password = new ObservableField<>("");
+        public ObservableField<String> confirmPassword = new ObservableField<>("");
     }
     private DialogConfig progressDialog;
 

@@ -18,13 +18,6 @@ public class MobileUser {
         this.password = password;
     }
 
-    public MobileUser(String phone, String password, String name, String city) {
-        this.phone = phone;
-        this.password = password;
-        this.name = name;
-        this.city = city;
-    }
-
     public String getPhone() {
         return phone;
     }

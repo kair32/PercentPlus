@@ -3,6 +3,8 @@ package com.procentplus.activities;
 import android.content.Intent;
 import android.graphics.Paint;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import com.procentplus.ProgressDialog.DialogConfig;
 import com.procentplus.R;
+import com.procentplus.databinding.ActivityAuthBinding;
+import com.procentplus.databinding.ActivityRegisterBinding;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.IRegistration;
 import com.procentplus.retrofit.models.MobileUser;
@@ -27,38 +31,22 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
-
-    @BindView(R.id.next_register)
-    Button btn_next_register;
-    @BindView(R.id.auth_btn_register)
-    TextView auth_btn_register;
-    @BindView(R.id.register_back_btn)
-    ImageView register_back_btn;
-    @BindView(R.id.et_email_register)
-    EditText et_email_register;
-    @BindView(R.id.et_city_register)
-    EditText et_city_register;
-    @BindView(R.id.et_password_register)
-    EditText et_password_register;
-    @BindView(R.id.et_confirm_password_register)
-    EditText et_confirm_password_register;
-
+    AuthActivity.AuthValue value = new AuthActivity.AuthValue();
+    ActivityRegisterBinding binding;
 
     private IRegistration iRegistration;
     private Retrofit retrofit;
 
-    private String email;
+    private String phone;
     private String password;
     private String confirm_password;
-    private String name;
-    private String city;
     private DialogConfig progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+        binding.setValue(value);
 
         // init api
         retrofit = RetrofitClient.getInstance();
@@ -67,12 +55,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         progressDialog = new DialogConfig(this, "Идет загрузка");
 
         // underlining text views
-        auth_btn_register.setPaintFlags(auth_btn_register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        binding.authBtnRegister.setPaintFlags(binding.authBtnRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         // init click listeners
-        btn_next_register.setOnClickListener(this);
-        auth_btn_register.setOnClickListener(this);
-        register_back_btn.setOnClickListener(this);
+        binding.nextRegister.setOnClickListener(this);
+        binding.authBtnRegister.setOnClickListener(this);
+        binding.registerBackBtn.setOnClickListener(this);
 
     }
 
@@ -80,12 +68,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.next_register:
-                email = et_email_register.getText().toString().trim();
-                password = et_password_register.getText().toString().trim();
-                confirm_password = et_confirm_password_register.getText().toString().trim();
-                city = et_city_register.getText().toString().trim();
-                if (!email.isEmpty() && !password.isEmpty() && !confirm_password.isEmpty()
-                        && !city.isEmpty()) {
+                phone = value.phone.get();
+                password = value.password.get();
+                confirm_password = value.confirmPassword.get();
+                if (!phone.isEmpty() && !password.isEmpty() && !confirm_password.isEmpty()) {
                     if (password.length() >= 6) {
                         if (password.equals(confirm_password)) {
                             registerUser();
@@ -113,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         Call<RegistrationResponse> registrationResponseCall = iRegistration.registrationData(
                 new SignRequest(
-                        new MobileUser(email, password, "Name", city)
+                        new MobileUser(phone, password)
                 )
         );
 
@@ -124,8 +110,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("LOGGER Reg", "statusCode: " + statusCode);
                 if (statusCode == 200) {
                     // hide dialog
+
                     MainActivity.dialogConfig.dismissDialog();
-                    MainActivity.prefConfig.writePhone(email);
+                    MainActivity.prefConfig.writePhone(phone);
                     MainActivity.prefConfig.writePassword(password);
                     Intent intent = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
                     startActivity(intent);
