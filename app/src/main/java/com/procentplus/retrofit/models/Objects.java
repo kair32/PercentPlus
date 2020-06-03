@@ -6,16 +6,20 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Objects {
+    @SerializedName("errors_count") @Expose
+    private Integer errorsCount;
 
-    @SerializedName("activity_type")
-    @Expose
-    private ObjectsData activityType;
+    @SerializedName("msg") @Expose
+    private String msg;
 
-    public ObjectsData getActivityType() {
-        return activityType;
-    }
+    @SerializedName("activity_type") @Expose
+    private List<ActivityType> activityType;
 
-    public class ObjectsData {
+    public Integer getErrorsCount() { return errorsCount; }
+    public List<ActivityType> getActivityType() { return activityType; }
+    public String getMsg() { return msg; }
+
+    public class ActivityType {
 
         @SerializedName("id")
         @Expose
@@ -23,55 +27,16 @@ public class Objects {
         @SerializedName("name")
         @Expose
         private String name;
+        @SerializedName("description")
+        @Expose
+        private Object description;
         @SerializedName("partners")
         @Expose
-        private List<Object> partners = null;
+        private List<Partner> partners = null;
 
-        public Integer getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public List<Object> getPartners() {
-            return partners;
-        }
-
+        public Integer getId() { return id; }
+        public String getName() { return name; }
+        public Object getDescription() { return description; }
+        public List<Partner> getPartners() { return partners; }
     }
-
-    public class Object {
-
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("name")
-        @Expose
-        private String name;
-        @SerializedName("activity_type_id")
-        @Expose
-        private Integer activityTypeId;
-        @SerializedName("city")
-        @Expose
-        private String city;
-
-        public Integer getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Integer getActivityTypeId() {
-            return activityTypeId;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-    }
-
 }

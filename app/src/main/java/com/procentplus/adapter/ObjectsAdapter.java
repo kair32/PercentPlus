@@ -13,15 +13,16 @@ import com.procentplus.activities.BonusActivity;
 import com.procentplus.activities.MainActivity;
 import com.procentplus.R;
 import com.procentplus.retrofit.models.Objects;
+import com.procentplus.retrofit.models.Partner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectsAdapter extends RecyclerView.Adapter<ObjectsAdapter.ViewHolder>{
 
-    private List<Objects.Object> objectList = new ArrayList<>();
+    private List<Partner> objectList = new ArrayList<>();
 
-    public ObjectsAdapter(List<Objects.Object> objectList) {
+    public ObjectsAdapter(List<Partner> objectList) {
         this.objectList = objectList;
     }
 
@@ -36,8 +37,8 @@ public class ObjectsAdapter extends RecyclerView.Adapter<ObjectsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Objects.Object object = objectList.get(position);
-        holder.objectName.setText(object.getName());
+        final Partner object = objectList.get(position);
+        holder.objectName.setText(object.getCompanyName());
 
         holder.objectsItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override

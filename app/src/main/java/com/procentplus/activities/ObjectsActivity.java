@@ -15,9 +15,12 @@ import com.procentplus.adapter.ObjectsAdapter;
 import com.procentplus.adapter.SearchAdapter;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.IObjects;
+import com.procentplus.retrofit.models.BonusData;
 import com.procentplus.retrofit.models.Objects;
 import com.procentplus.retrofit.models.ObjectsRequest;
+import com.procentplus.retrofit.models.Partner;
 import com.procentplus.retrofit.models.PointOfSale;
+import com.procentplus.retrofit.models.response_bubble.RestResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class ObjectsActivity extends AppCompatActivity implements View.OnClickLi
 
     private RecyclerView categoryRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private List<Objects.Object> objectsList = new ArrayList<>();
+    private List<Partner> objectsList = new ArrayList<>();
     private List<PointOfSale> searchResultList = new ArrayList<>();
 
     private Integer category_id;
@@ -104,19 +107,23 @@ public class ObjectsActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<Objects> call, Response<Objects> response) {
                 int statusCode = response.code();
-                Log.d("LOGGER Objects", "statusCode: " + statusCode);
+                if (response.body() != null && (response.body()).getErrorsCount() > 0) {
+                    MainActivity.prefConfig.displayToast(response.body().getMsg());
+                    return;
+                }
                 if (statusCode == 200) {
                     if (objectsList.size() > 0) objectsList.clear();
 
-                    objectsList.addAll(response.body().getActivityType().getPartners());
+                    if (response.body() != null)
+                        for (int i = 0; i < response.body().getActivityType().size(); i++)
+                            objectsList.addAll(response.body().getActivityType().get(i).getPartners());
+
                     setAdapterObjects();
                 }
             }
 
             @Override
-            public void onFailure(Call<Objects> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Objects> call, Throwable t) { MainActivity.prefConfig.displayToast("Произошла оибка попытайтесь снова."); }
         });
     }
 
