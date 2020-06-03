@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -17,8 +16,8 @@ import com.procentplus.retrofit.models.BonusData;
 import com.procentplus.retrofit.models.BonusList;
 import com.procentplus.retrofit.models.BonusRequest;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,21 +53,23 @@ public class LegendActivity extends AppCompatActivity implements View.OnClickLis
         bonusListResponseCall.enqueue(new Callback<BonusList>() {
             @Override
             public void onResponse(Call<BonusList> call, Response<BonusList> response) {
-                int statusCode = response.code();
-                Log.d("LOGGER Category", "statusCode: " + statusCode);
+                if (response.body() != null && (response.body()).getErrorsCount() > 0) {
+                    MainActivity.prefConfig.displayToast(response.body().getMsg());
+                    return;
+                }
                 if (response.body()!=null) {
-                    if (response.body().getBonus()!=null) {
-                        List<BonusData> bonuses = response.body().getBonus();
-                        Collections.sort(bonuses, (contact, another) -> contact.getPercent().compareToIgnoreCase(another.getPercent()));
-                        binding.rv.setAdapter(new LegendAdapter(bonuses));
+                    if (response.body().getPartnerList()!=null) {
+                        ArrayList<BonusData> bonusDataList = new ArrayList<>();
+                        for (int i = 0; i < response.body().getPartnerList().size(); i++){
+                            bonusDataList.addAll(response.body().getPartnerList().get(i).getBonus());
+                        }
+                        Collections.sort(bonusDataList, (contact, another) -> contact.getPercent().compareToIgnoreCase(another.getPercent()));
+                        binding.rv.setAdapter(new LegendAdapter(bonusDataList));
                     }
                 } else onBackPressed();
             }
 
-            @Override
-            public void onFailure(Call<BonusList> call, Throwable t) {
-                onBackPressed();
-            }
+            @Override public void onFailure(Call<BonusList> call, Throwable t) { onBackPressed(); }
         });
     }
     @Override

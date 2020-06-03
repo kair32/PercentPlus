@@ -16,20 +16,21 @@ public class BonusData {
     @SerializedName("percent")
     @Expose
     private String percent = "6";
+    @SerializedName("partner_id")
+    @Expose
+    private Integer partnerId;
 
     public Integer getId() {
         return id;
     }
-
     public Integer getSumFrom() {
         return sumFrom;
     }
-
     public Integer getSumTo() {
         return sumTo;
     }
-
     public String getPercent() {
         return percent;
     }
+    public Integer getPartnerId() { return partnerId; }
 }
