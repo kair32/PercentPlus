@@ -2,11 +2,12 @@ package com.procentplus.activities;
 
 import android.content.Intent;
 import android.graphics.Paint;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.procentplus.ProgressDialog.DialogConfig;
@@ -28,12 +29,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     AuthActivity.AuthValue value = new AuthActivity.AuthValue();
     ActivityRegisterBinding binding;
 
-    private IRegistration iRegistration;
     private Retrofit retrofit;
 
     private String phone;
     private String password;
-    private String confirm_password;
     private DialogConfig progressDialog;
 
     @Override
@@ -64,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.next_register:
                 phone = value.phone.get();
                 password = value.password.get();
-                confirm_password = value.confirmPassword.get();
+                String confirm_password = value.confirmPassword.get();
                 if (!phone.isEmpty() && !password.isEmpty() && !confirm_password.isEmpty()) {
                     if (password.length() >= 6) {
                         if (password.equals(confirm_password)) {
@@ -89,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void registerUser() {
-        iRegistration = retrofit.create(IRegistration.class);
+        IRegistration iRegistration = retrofit.create(IRegistration.class);
 
         Call<RestResponse<RegistrationResponse>> registrationResponseCall = iRegistration.registrationData(
                 new SignRequest(new MobileUser(phone, password))
@@ -107,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
 
             @Override
-            public void onErrorRequest(String message) {
+            public void onErrorRequest(@Nullable String message, boolean isUnauthorized) {
                 progressDialog.dismissDialog();
                 MainActivity.prefConfig.displayToast(message);
             }

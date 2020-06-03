@@ -26,15 +26,16 @@ import com.procentplus.SharedPrefs.PrefConfig;
 import com.procentplus.adapter.CustomPagerAdapter;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.GetUser;
-import com.procentplus.retrofit.models.AuthResponse;
+import com.procentplus.retrofit.models.User;
+import com.procentplus.retrofit.models.response_bubble.ResponseCallback;
+import com.procentplus.retrofit.models.response_bubble.RestResponse;
+import com.procentplus.retrofit.models.response_bubble.RetrofitCallback;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends FragmentActivity {
@@ -45,7 +46,7 @@ public class MainActivity extends FragmentActivity {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.preloader)
-    ConstraintLayout preloader_view;
+    ConstraintLayout preloaderView;
     @BindView(R.id.main_logo)
     ImageView main_logo;
     private PagerAdapter pagerAdapter;
@@ -148,39 +149,34 @@ public class MainActivity extends FragmentActivity {
                 .getColor(R.color.tabIconColor), PorterDuff.Mode.SRC_IN));
     }
 
-    private AuthResponse userDetail;
+    private User userDetail;
 
     private void getUser() {
         animateLogo();
 
         GetUser user = retrofit.create(GetUser.class);
-        Call<AuthResponse> authResponseCall = user.getUser(prefConfig.readId(),prefConfig.readToken());
+        Call<RestResponse<User>> authResponseCall = user.getUser(prefConfig.readId(),prefConfig.readToken());
 
-        authResponseCall.enqueue(new Callback<AuthResponse>() {
+        authResponseCall.enqueue(new RetrofitCallback<>(new ResponseCallback<User>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                int statusCode = response.code();
-                preloader_view.setVisibility(View.GONE);
-                if (statusCode == 200) {
-                    if (response.body() != null && response.body().getUser().getIsOperator() != null) {
-                        isOperator = response.body().getUser().getIsOperator();
-                        userDetail = response.body();
-                        tabLayout.setVisibility(View.VISIBLE);
-                        initViewPager();
-                    }
-                }
-                else
-                    if (statusCode == 401)  startLoginActivity();
-                    else                    snackBarView();
+            public void onSuccessfulRequest(User response) {
+                isOperator = response.getIsOperator();
+                userDetail = response;
+                preloaderView.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.VISIBLE);
+                initViewPager();
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) { snackBarView(); }
-        });
+            public void onErrorRequest(@Nullable String message, boolean isUnauthorized) {
+                if (isUnauthorized) startLoginActivity();
+                else snackBarView();
+            }
+        }));
     }
 
     private void snackBarView(){
-        Snackbar.make(preloader_view, R.string.error, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(preloaderView, R.string.error, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Повторить?", v -> {
                     getUser();
                 })

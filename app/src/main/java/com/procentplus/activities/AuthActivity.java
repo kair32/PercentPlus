@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.procentplus.ProgressDialog.DialogConfig;
 import com.procentplus.R;
 import com.procentplus.databinding.ActivityAuthBinding;
-import com.procentplus.databinding.ActivityCalculateBinding;
 import com.procentplus.retrofit.interfaces.IAuthorization;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.models.SignRequest;

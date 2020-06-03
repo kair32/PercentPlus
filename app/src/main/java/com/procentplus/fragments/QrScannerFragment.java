@@ -24,6 +24,7 @@ import com.procentplus.R;
 import com.procentplus.activities.ActivityCalculate;
 import com.procentplus.databinding.FragmentScannerBinding;
 import com.procentplus.retrofit.models.AuthResponse;
+import com.procentplus.retrofit.models.User;
 
 import java.util.List;
 
@@ -34,9 +35,9 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
     private String tag = "QrScannerFragment";
     private FragmentScannerBinding binding;
     private DecoratedBarcodeView cameraPreview;
-    private AuthResponse userDetail;
+    private User userDetail;
 
-    public QrScannerFragment(AuthResponse userDetail){
+    public QrScannerFragment(User userDetail){
         this.userDetail = userDetail;
     }
 
@@ -83,7 +84,7 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
         intent.putExtra("userId", Integer.parseInt(s[2]));
         intent.putExtra("userBonus", s[3]);
         intent.putExtra("partnerId", userDetail.getPartner());
-        intent.putExtra("operatorId", userDetail.getUser().getId());
+        intent.putExtra("operatorId", userDetail.getId());
         startActivity(intent);
     }
 

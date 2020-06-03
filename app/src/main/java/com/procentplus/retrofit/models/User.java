@@ -28,38 +28,29 @@ public class User {
     @SerializedName("is_operator")
     @Expose
     private Boolean isOperator;
+    @SerializedName("partner_id")
+    @Expose
+    private Integer partner;
 
     public Boolean getIsOperator(){return isOperator;}
 
     public void setOperator(Boolean operator) { isOperator = operator; }
 
-    public Boolean getActive() {
-        return isActive;
-    }
+    public Boolean getActive() { return isActive; }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getId() { return id; }
 
     public String getName() { return name; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public String getCity() {
-        return city;
-    }
+    public String getCity() { return city; }
 
-    public Boolean getIsActive() {
-        return isActive;
-    }
+    public Boolean getIsActive() { return isActive; }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
+    public String getCreatedAt() { return createdAt; }
 
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
+    public String getUpdatedAt() { return updatedAt; }
+
+    public Integer getPartner() { return partner; }
 }

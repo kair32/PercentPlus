@@ -9,7 +9,7 @@ import com.procentplus.fragments.BonusFragment;
 import com.procentplus.fragments.CategoryFragment;
 import com.procentplus.fragments.QrScannerFragment;
 import com.procentplus.fragments.SearchFragment;
-import com.procentplus.retrofit.models.AuthResponse;
+import com.procentplus.retrofit.models.User;
 
 public class CustomPagerAdapter extends FragmentPagerAdapter {
 
@@ -17,10 +17,10 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
     private String[] name;
     private Bundle data;
 
-    public CustomPagerAdapter(FragmentManager fm, Bundle data, AuthResponse userDetail) {
+    public CustomPagerAdapter(FragmentManager fm, Bundle data, User userDetail) {
         super(fm);
         this.data = data;
-        if (userDetail.getUser().getIsOperator()) {
+        if (userDetail.getIsOperator()) {
             fragments = new Fragment[] {new QrScannerFragment(userDetail),new SearchFragment(),new CategoryFragment(), createBonusFragment(userDetail)};
             name = new String[] {"Сканировать", "Поиск", "Категория", "Бонус"};
         }
@@ -33,7 +33,7 @@ public class CustomPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) { return fragments[position]; }
 
-    private Fragment createBonusFragment(AuthResponse userDetail){
+    private Fragment createBonusFragment(User userDetail){
         BonusFragment bonusFragment = new BonusFragment(userDetail);
         bonusFragment.setArguments(this.data);
         return bonusFragment;

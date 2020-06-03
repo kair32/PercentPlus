@@ -26,9 +26,7 @@ public class AuthResponse {
     @Expose
     private User user;
 
-    @SerializedName("partner")
-    @Expose
-    private Integer partner;
+
 
     @SerializedName("msg")
     @Expose
@@ -46,6 +44,5 @@ public class AuthResponse {
 
     public User getUser() { return user; }
 
-    public Integer getPartner() { return partner; }
 
 }
