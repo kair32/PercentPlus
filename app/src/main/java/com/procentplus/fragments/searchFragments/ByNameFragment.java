@@ -69,7 +69,7 @@ public class ByNameFragment extends Fragment {
         iSearch = retrofit.create(ISearch.class);
 
         List<SearchRequest.SearchParam> list = new ArrayList<>();
-        list.add(new SearchRequest.SearchParam("name", object_name));
+        list.add(new SearchRequest.SearchParam("company_name", object_name));
 
         Call<SearchResponse> searchResponseCall = iSearch.getSearchResult(
                 MainActivity.prefConfig.readToken(),
@@ -82,8 +82,7 @@ public class ByNameFragment extends Fragment {
                 int statusCode = response.code();
                 Log.d("LOGGER Search", "statusCode: " + statusCode);
 
-                List<PointOfSale> searchList = new ArrayList<>();
-                searchList.addAll(response.body().getPointOfSales());
+                List<PointOfSale> searchList = new ArrayList<>(response.body().getPointOfSales());
 
                 if (statusCode == 200) {
                     // hide dialog

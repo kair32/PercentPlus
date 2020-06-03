@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 public interface ISearch {
 
     @Headers("Content-Type: application/json")
-    @POST("point_of_sales/search")
+    @POST("partners/search")
     Call<SearchResponse> getSearchResult(@Header("Authorization") String authorization,
                                          @Body SearchRequest search_params);
 

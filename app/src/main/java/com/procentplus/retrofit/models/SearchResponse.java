@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SearchResponse implements Serializable {
 
-    @SerializedName("point_of_sales")
+    @SerializedName("partners")
     @Expose
     private List<PointOfSale> pointOfSales = null;
 

@@ -1,10 +1,14 @@
 package com.procentplus.SharedPrefs;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.procentplus.R;
+import com.procentplus.activities.AuthActivity;
+import com.procentplus.activities.MainActivity;
 
 public class PrefConfig {
 
@@ -68,6 +72,11 @@ public class PrefConfig {
     }
 
 
+    public void startLoginActivity(Activity activity, boolean withFinish){
+        Intent auth_intent = new Intent(activity, AuthActivity.class);
+        activity.startActivity(auth_intent);
+        if (withFinish) activity.finish();
+    }
 
     public void displayToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

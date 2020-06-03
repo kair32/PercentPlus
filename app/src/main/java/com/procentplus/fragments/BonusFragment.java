@@ -29,8 +29,7 @@ public class BonusFragment extends Fragment {
         binding = FragmentBonusBinding.inflate(inflater, container, false);
 
         binding.setUser(userDetail);
-        if (userDetail.getName()==null) binding.tvName.setText(R.string.empty_name);
-        if (userDetail.getEmail()==null) binding.tvMail.setText(R.string.empty_email);
+        if (userDetail.getName()==null) binding.tvName.setText(R.string.empty_phone);
 
         new CreateQr(userDetail.getName(), userDetail.getId(), binding.ivQr);
 

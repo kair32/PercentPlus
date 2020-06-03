@@ -13,6 +13,9 @@ public class User {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
     @SerializedName("city")
     @Expose
     private String city;
@@ -43,6 +46,10 @@ public class User {
     public String getName() { return name; }
 
     public String getEmail() { return email; }
+
+    public String getPhone() { return phone; }
+
+    public Boolean getOperator() { return isOperator; }
 
     public String getCity() { return city; }
 

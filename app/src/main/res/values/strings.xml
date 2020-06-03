@@ -20,9 +20,9 @@
     <string name="rub">руб.</string>
     <string name="description">Покажите при оплате</string>
     <string name="acts">Действует во всех заведениях-партнерах PercentPlus</string>
-    <string name="name">Имя:</string>
+    <string name="name">Телефон:</string>
     <string name="email">E-mail:</string>
-    <string name="empty_name">Имя не указано</string>
+    <string name="empty_phone">Телефон не указан</string>
     <string name="empty_email">E-mail не указан</string>
     <string name="legend_description">Скидка на карте постоянного покупателя\n зависит от общей суммы ваших покупок</string>
     <string name="legend_title">КАК НАКОПИТЬ ПРОЦЕНТ</string>

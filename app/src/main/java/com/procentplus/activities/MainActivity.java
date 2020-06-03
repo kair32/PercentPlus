@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         // if user isn't logged in
-        if (!prefConfig.readLoginStatus()) startLoginActivity();
+        if (!prefConfig.readLoginStatus()) MainActivity.prefConfig.startLoginActivity(MainActivity.this, true);
 
         if (getIntent().getIntExtra("tab_id", -1) != -1) {
             tabPosition = getIntent().getExtras().getInt("tab_id");
@@ -169,7 +169,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onErrorRequest(@Nullable String message, boolean isUnauthorized) {
-                if (isUnauthorized) startLoginActivity();
+                if (isUnauthorized) MainActivity.prefConfig.startLoginActivity(MainActivity.this, true);
                 else snackBarView();
             }
         }));
@@ -181,11 +181,5 @@ public class MainActivity extends FragmentActivity {
                     getUser();
                 })
                 .show();
-    }
-
-    private void startLoginActivity(){
-        Intent auth_intent = new Intent(MainActivity.this, AuthActivity.class);
-        startActivity(auth_intent);
-        finish();
     }
 }

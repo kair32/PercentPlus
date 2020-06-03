@@ -83,8 +83,7 @@ public class ByCodeFragment extends Fragment {
                 int statusCode = response.code();
                 Log.d("LOGGER Search", "statusCode: " + statusCode);
 
-                List<PointOfSale> searchList = new ArrayList<>();
-                searchList.addAll(response.body().getPointOfSales());
+                List<PointOfSale> searchList = new ArrayList<>(response.body().getPointOfSales());
 
                 if (statusCode == 200) {
                     // hide dialog

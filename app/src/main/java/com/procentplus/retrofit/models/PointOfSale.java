@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class PointOfSale implements Serializable {
 
-    @SerializedName("name")
+    @SerializedName("company_name")
     @Expose
     private String name;
     @SerializedName("id")

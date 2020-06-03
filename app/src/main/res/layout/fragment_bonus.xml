@@ -32,18 +32,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/tabIconColor"
                 android:textSize="22sp"
-                android:text='@{String.format("%s %s", @string/name,user.name)}'
+                android:text='@{String.format("%s %s", @string/name,user.phone)}'
                 tools:text="Имя"/>
-
-            <TextView
-                android:id="@+id/tv_mail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/tabIconColor"
-                android:text='@{String.format("%s %s", @string/email,user.email)}'
-                android:layout_marginTop="5dp"
-                android:textSize="22sp"
-                tools:text="Почта"/>
 
         </LinearLayout>
 
