@@ -23,6 +23,8 @@ import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.PartnerBonus;
 import com.procentplus.retrofit.models.Bonus;
 import com.procentplus.retrofit.models.BonusRequest;
+import com.procentplus.retrofit.models.UserBonus;
+import com.procentplus.retrofit.models.response_bubble.RestResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,19 +91,23 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
     private void getBonus(final View view) {
         PartnerBonus iBonus = retrofit.create(PartnerBonus.class);
 
-        Call<Bonus> bonusCall = iBonus.getPartnerBonus(
+        Call<UserBonus> bonusCall = iBonus.getPartnerBonus(
                 MainActivity.prefConfig.readToken(),
                 new BonusRequest(object_id)
         );
 
-        bonusCall.enqueue(new Callback<Bonus>() {
+        bonusCall.enqueue(new Callback<UserBonus>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<Bonus> call, Response<Bonus> response) {
+            public void onResponse(Call<UserBonus> call, Response<UserBonus> response) {
                 int statusCode = response.code();
+                if (response.body() != null && (response.body()).getErrorsCount() > 0) {
+                    MainActivity.prefConfig.displayToast(response.body().getMsg());
+                    return;
+                }
                 if (statusCode == 200) {
                     if (response.body() ==  null)   return;
-                    Bonus bonus = response.body();
+                    Bonus bonus = response.body().getBonus();
                     binding.currentUserBonus.setText(bonus.getCurrentDiscount() + "%");
                     String text = "0";
                     if (bonus.getNextBonusFrom()!=null && bonus.getBalance() !=null)
@@ -118,7 +124,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
             @Override
-            public void onFailure(Call<Bonus> call, Throwable t) {
+            public void onFailure(Call<UserBonus> call, Throwable t) {
                 MainActivity.prefConfig.displayToast("Произошла ошибка при получении бонусов");
             }
         });
