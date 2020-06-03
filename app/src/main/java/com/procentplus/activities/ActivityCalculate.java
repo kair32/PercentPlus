@@ -114,7 +114,7 @@ public class ActivityCalculate extends AppCompatActivity {
 
         Call<ResponseBody> bonusCall = saleRecords.setSaleRecords(
                 MainActivity.prefConfig.readToken(),
-                new SaleRecordsRequest(new SaleRecordsRequest.SaleRecord(userId, operatorId, percent, originalPrice))
+                new SaleRecordsRequest(new SaleRecordsRequest.SaleRecord(userId, percent, originalPrice))
         );
 
         bonusCall.enqueue(new Callback<ResponseBody>() {

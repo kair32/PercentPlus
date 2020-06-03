@@ -24,7 +24,8 @@ public class RetrofitClient {
                     .create();
 
             ourInstance = new Retrofit.Builder()
-                    .baseUrl("https://procentplus.com/api/")
+                    .baseUrl("https://api.procentplus.com/api/")
+                    //.baseUrl("https://procentplus.com/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client.build())
                     .build();

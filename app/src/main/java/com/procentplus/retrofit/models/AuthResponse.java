@@ -6,79 +6,46 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class AuthResponse {
-
-    @SerializedName("id")
+    @SerializedName("errors_count")
     @Expose
-    private Integer id;
-    @SerializedName("name")
+    private Integer errorsCount;
+
+    @SerializedName("access_token")
     @Expose
-    private String name;
-    @SerializedName("email")
+    private String accessToken;
+
+    @SerializedName("token_type")
     @Expose
-    private String email;
-    @SerializedName("city")
+    private String tokenType;
+
+    @SerializedName("expires_in")
     @Expose
-    private String city;
-    @SerializedName("is_active")
+    private Integer expiresIn;
+
+    @SerializedName("user")
     @Expose
-    private Boolean isActive;
-    @SerializedName("created_at")
+    private User user;
+
+    @SerializedName("partner")
     @Expose
-    private String createdAt;
-    @SerializedName("updated_at")
+    private Integer partner;
+
+    @SerializedName("msg")
     @Expose
-    private String updatedAt;
-    @SerializedName("partner_id")
-    @Expose
-    private Integer partnerId;
+    private String msg;
 
-    @SerializedName("is_operator")
-    @Expose
-    private Boolean isOperator;
+    public String getMsg() { return msg; }
 
-    @SerializedName("errors")
-    @Expose
-    private List<ErrorsData> errors = null;
+    public Integer getErrorsCount() { return errorsCount; }
 
-    public Boolean getIsOperator(){return isOperator;}
+    public String getAccessToken() { return accessToken; }
 
-    public void setOperator(Boolean operator) { isOperator = operator; }
+    public String getTokenType() { return tokenType; }
 
-    public List<ErrorsData> getErrors() {
-        return errors;
-    }
+    public Integer getExpiresIn() { return expiresIn; }
 
-    public Boolean getActive() {
-        return isActive;
-    }
+    public User getUser() { return user; }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getPartner() { return partner; }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public Integer getPartnerId() { return partnerId; }
 }

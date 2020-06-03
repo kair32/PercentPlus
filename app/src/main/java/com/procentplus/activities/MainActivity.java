@@ -162,8 +162,8 @@ public class MainActivity extends FragmentActivity {
                 int statusCode = response.code();
                 preloader_view.setVisibility(View.GONE);
                 if (statusCode == 200) {
-                    if (response.body() != null && response.body().getIsOperator() != null) {
-                        isOperator = response.body().getIsOperator();
+                    if (response.body() != null && response.body().getUser().getIsOperator() != null) {
+                        isOperator = response.body().getUser().getIsOperator();
                         userDetail = response.body();
                         tabLayout.setVisibility(View.VISIBLE);
                         initViewPager();

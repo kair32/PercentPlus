@@ -29,11 +29,11 @@ public class BonusFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBonusBinding.inflate(inflater, container, false);
 
-        binding.setUser(userDetail);
-        if (userDetail.getName()==null) binding.tvName.setText(R.string.empty_name);
-        if (userDetail.getEmail()==null) binding.tvMail.setText(R.string.empty_email);
+        binding.setUser(userDetail.getUser());
+        if (userDetail.getUser().getName()==null) binding.tvName.setText(R.string.empty_name);
+        if (userDetail.getUser().getEmail()==null) binding.tvMail.setText(R.string.empty_email);
 
-        new CreateQr(userDetail.getName(), userDetail.getId(), binding.ivQr);
+        new CreateQr(userDetail.getUser().getName(), userDetail.getUser().getId(), binding.ivQr);
 
         return binding.getRoot();
     }

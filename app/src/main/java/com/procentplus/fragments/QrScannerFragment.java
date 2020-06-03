@@ -82,8 +82,8 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
         intent.putExtra("userName", s[1]);
         intent.putExtra("userId", Integer.parseInt(s[2]));
         intent.putExtra("userBonus", s[3]);
-        intent.putExtra("partnerId", userDetail.getPartnerId());
-        intent.putExtra("operatorId", userDetail.getId());
+        intent.putExtra("partnerId", userDetail.getPartner());
+        intent.putExtra("operatorId", userDetail.getUser().getId());
         startActivity(intent);
     }
 

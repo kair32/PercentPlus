@@ -116,26 +116,27 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 int statusCode = response.code();
                 Log.d("LOGGER Auth", "statusCode: " + statusCode);
+                progressDialog.dismissDialog();
                 if (statusCode == 200) {
-
-                    // hide dialog
-                    progressDialog.dismissDialog();
-
                     String token = response.headers().get("Authorization");
+                    if (response.body()==null) return;
+                    if (response.body().getErrorsCount() !=null && response.body().getErrorsCount() > 0) {
+                        showError(response.body().getMsg());
+                        return;
+                    }
                     MainActivity.prefConfig.writeLoginStatus(true);
                     MainActivity.prefConfig.writeEmail(email);
                     MainActivity.prefConfig.writePassword(password);
                     MainActivity.prefConfig.writeToken(token);
-                    MainActivity.prefConfig.writeId(response.body().getId());
+                    MainActivity.prefConfig.writeId(response.body().getUser().getId());
                     Intent intent = new Intent(AuthActivity.this, MainActivity.class);
                     intent.putExtra("tab_id", 0);
                     startActivity(intent);
                     finish();
                 } else {
                     // hide dialog
-                    progressDialog.dismissDialog();
-                    try { MainActivity.prefConfig.displayToast( new JSONObject(response.errorBody().string()).getString("error_message"));}
-                    catch (JSONException | IOException e) { MainActivity.prefConfig.displayToast("Email или пароль были введены неверно!");  }
+                    try { showError( new JSONObject(response.errorBody().string()).getString("error_message"));}
+                    catch (JSONException | IOException e) { showError("Email или пароль были введены неверно!");  }
                 }
             }
 
@@ -143,8 +144,11 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             public void onFailure(Call<AuthResponse> call, Throwable t) {
                 // hide dialog
                 progressDialog.dismissDialog();
-                MainActivity.prefConfig.displayToast("Произошла ошибка при попытке авторизации, попытайтесь снова.");
+                showError("Произошла ошибка при попытке авторизации, попытайтесь снова.");
             }
         });
+    }
+    private void showError(String text){
+        MainActivity.prefConfig.displayToast(text);
     }
 }
