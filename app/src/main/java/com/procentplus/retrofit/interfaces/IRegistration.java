@@ -1,6 +1,7 @@
 package com.procentplus.retrofit.interfaces;
 
 import com.procentplus.retrofit.models.RegistrationResponse;
+import com.procentplus.retrofit.models.response_bubble.RestResponse;
 import com.procentplus.retrofit.models.SignRequest;
 
 import retrofit2.Call;
@@ -12,7 +13,7 @@ public interface IRegistration {
 
         @Headers("Content-Type: application/json")
         @POST("mobile_users")
-        Call<RegistrationResponse> registrationData(
+        Call<RestResponse<RegistrationResponse>> registrationData(
                 @Body SignRequest mobile_user);
 
 }

@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;

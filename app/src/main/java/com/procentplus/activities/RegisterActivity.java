@@ -8,26 +8,20 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.procentplus.ProgressDialog.DialogConfig;
 import com.procentplus.R;
-import com.procentplus.databinding.ActivityAuthBinding;
 import com.procentplus.databinding.ActivityRegisterBinding;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.interfaces.IRegistration;
 import com.procentplus.retrofit.models.MobileUser;
 import com.procentplus.retrofit.models.RegistrationResponse;
+import com.procentplus.retrofit.models.response_bubble.ResponseCallback;
+import com.procentplus.retrofit.models.response_bubble.RestResponse;
+import com.procentplus.retrofit.models.response_bubble.RetrofitCallback;
 import com.procentplus.retrofit.models.SignRequest;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -97,41 +91,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void registerUser() {
         iRegistration = retrofit.create(IRegistration.class);
 
-        Call<RegistrationResponse> registrationResponseCall = iRegistration.registrationData(
-                new SignRequest(
-                        new MobileUser(phone, password)
-                )
+        Call<RestResponse<RegistrationResponse>> registrationResponseCall = iRegistration.registrationData(
+                new SignRequest(new MobileUser(phone, password))
         );
-
-        registrationResponseCall.enqueue(new Callback<RegistrationResponse>() {
+        registrationResponseCall.enqueue(new RetrofitCallback<>(new ResponseCallback<RegistrationResponse>() {
             @Override
-            public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
-                int statusCode = response.code();
-                Log.d("LOGGER Reg", "statusCode: " + statusCode);
-                if (statusCode == 200) {
-                    // hide dialog
-
-                    MainActivity.dialogConfig.dismissDialog();
-                    MainActivity.prefConfig.writePhone(phone);
-                    MainActivity.prefConfig.writePassword(password);
-                    Intent intent = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    // hide dialog
-                    progressDialog.dismissDialog();
-                    MainActivity.prefConfig.displayToast("Произошла ошибка при попытке регистрации, попытайтесь снова.");
-                }
+            public void onSuccessfulRequest(RegistrationResponse response) {
+                MainActivity.dialogConfig.dismissDialog();
+                MainActivity.prefConfig.writePhone(phone);
+                MainActivity.prefConfig.writePassword(password);
+                MainActivity.prefConfig.displayToast("Вы успешно зарегистрированы. Авторизуйтесь");
+                Intent intent = new Intent(RegisterActivity.this, AuthActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
-            public void onFailure(Call<RegistrationResponse> call, Throwable t) {
-                // hide dialog
+            public void onErrorRequest(String message) {
                 progressDialog.dismissDialog();
-                MainActivity.prefConfig.displayToast("Произошла ошибка при попытке регистрации, попытайтесь снова.");
+                MainActivity.prefConfig.displayToast(message);
             }
-        });
-
+        }));
 
     }
 }

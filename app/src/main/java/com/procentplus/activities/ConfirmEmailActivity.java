@@ -13,7 +13,10 @@ import com.procentplus.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Suppress;
 
+@Suppress(names = "unused")
+@Deprecated
 public class ConfirmEmailActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.confirm_back_btn)
