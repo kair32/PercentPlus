@@ -49,4 +49,6 @@ dependencies {
     //qr scanner
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.google.zxing:core:3.4.0'
+
+    implementation 'com.redmadrobot:inputmask:4.1.0'//masked
 }

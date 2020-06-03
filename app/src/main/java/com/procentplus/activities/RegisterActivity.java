@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (statusCode == 200) {
                     // hide dialog
                     MainActivity.dialogConfig.dismissDialog();
-                    MainActivity.prefConfig.writeEmail(email);
+                    MainActivity.prefConfig.writePhone(email);
                     MainActivity.prefConfig.writePassword(password);
                     Intent intent = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
                     startActivity(intent);

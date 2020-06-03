@@ -100,7 +100,7 @@ public class CategoryFragment extends Fragment {
         iAuthorization = retrofit.create(IAuthorization.class);
         Call<AuthResponse> authResponseCall = iAuthorization.getAccountData(
                 new SignRequest(
-                        new MobileUser(MainActivity.prefConfig.readEmail(),
+                        new MobileUser(MainActivity.prefConfig.readPhone(),
                                 MainActivity.prefConfig.readPassword()))
         );
 

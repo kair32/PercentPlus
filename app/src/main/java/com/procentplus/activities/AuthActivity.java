@@ -3,6 +3,9 @@ package com.procentplus.activities;
 import android.content.Intent;
 import android.graphics.Paint;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableField;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 
 import com.procentplus.ProgressDialog.DialogConfig;
 import com.procentplus.R;
+import com.procentplus.databinding.ActivityAuthBinding;
+import com.procentplus.databinding.ActivityCalculateBinding;
 import com.procentplus.retrofit.interfaces.IAuthorization;
 import com.procentplus.retrofit.RetrofitClient;
 import com.procentplus.retrofit.models.SignRequest;
@@ -32,28 +37,25 @@ import retrofit2.Retrofit;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.et_email_auth)
-    EditText et_email_auth;
-    @BindView(R.id.et_password_auth)
-    EditText et_password_auth;
-    @BindView(R.id.forgot_password)
-    TextView tv_forgot_password;
-    @BindView(R.id.sign_in_auth)
-    Button btn_sign_in_auth;
-    @BindView(R.id.register_btn_auth)
-    TextView register_btn_auth;
+    public class AuthValue{
+        public ObservableField<String> phone = new ObservableField<>("");
+        public ObservableField<String> password = new ObservableField<>("");
+    }
     private DialogConfig progressDialog;
 
+    AuthValue value = new AuthValue();
+    ActivityAuthBinding binding;
     private IAuthorization iAuthorization;
     private Retrofit retrofit;
 
-    private String email;
+    private String phone;
     private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
+        binding.setValue(value);
         ButterKnife.bind(this);
 
         // init api
@@ -63,13 +65,13 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog = new DialogConfig(this, "Идет загрузка");
 
         // underlining the textviews
-        tv_forgot_password.setPaintFlags(tv_forgot_password.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        register_btn_auth.setPaintFlags(register_btn_auth.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        binding.forgotPassword.setPaintFlags(binding.forgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        binding.registerBtnAuth.setPaintFlags(binding.registerBtnAuth.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         // init click listeners
-        tv_forgot_password.setOnClickListener(this);
-        btn_sign_in_auth.setOnClickListener(this);
-        register_btn_auth.setOnClickListener(this);
+        binding.forgotPassword.setOnClickListener(this);
+        binding.signInAuth.setOnClickListener(this);
+        binding.registerBtnAuth.setOnClickListener(this);
 
 
     }
@@ -83,11 +85,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.sign_in_auth:
-                email = et_email_auth.getText().toString().trim();
-                password = et_password_auth.getText().toString().trim();
-                if (!email.isEmpty() && !password.isEmpty()) {
+                phone = value.phone.get();
+                password = value.password.get();
+                if (phone.length() > 16 && !password.isEmpty()) {
                     getAuthResponse();
-
                     // show dialog
                     progressDialog.showDialog();
 
@@ -108,7 +109,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
         Call<AuthResponse> authResponseCall = iAuthorization.getAccountData(
                 new SignRequest(
-                        new MobileUser(email, password))
+                        new MobileUser(phone, password))
         );
 
         authResponseCall.enqueue(new Callback<AuthResponse>() {
@@ -118,16 +119,15 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("LOGGER Auth", "statusCode: " + statusCode);
                 progressDialog.dismissDialog();
                 if (statusCode == 200) {
-                    String token = response.headers().get("Authorization");
                     if (response.body()==null) return;
                     if (response.body().getErrorsCount() !=null && response.body().getErrorsCount() > 0) {
                         showError(response.body().getMsg());
                         return;
                     }
                     MainActivity.prefConfig.writeLoginStatus(true);
-                    MainActivity.prefConfig.writeEmail(email);
+                    MainActivity.prefConfig.writePhone(phone);
                     MainActivity.prefConfig.writePassword(password);
-                    MainActivity.prefConfig.writeToken(token);
+                    MainActivity.prefConfig.writeToken(response.body().getAccessToken());
                     MainActivity.prefConfig.writeId(response.body().getUser().getId());
                     Intent intent = new Intent(AuthActivity.this, MainActivity.class);
                     intent.putExtra("tab_id", 0);
