@@ -15,20 +15,24 @@ public class Bonus {
     private String currentDiscount;
     @SerializedName("balance")
     @Expose
-    private Integer balance;
+    private Double balance;
     @SerializedName("next_bonus_discount")
     @Expose
     private Integer nextBonusDiscount;
     @SerializedName("next_bonus_from")
     @Expose
     private Integer nextBonusFrom;
+    @SerializedName("isMax")
+    @Expose
+    private boolean isMax;
 
-    public Integer getBalance() { return balance; }
+    public Double getBalance() { return balance; }
     public String getCurrentDiscount() { return currentDiscount; }
     public Integer getNextBonusDiscount() { return nextBonusDiscount; }
     public Integer getNextBonusFrom() { return nextBonusFrom; }
     public Integer getPartnerId() { return partnerId; }
     public Integer getUserId() { return userId; }
+    public boolean isMax() { return isMax; }
 }
 /*"partner_id": 0,
 "user_id": 0,

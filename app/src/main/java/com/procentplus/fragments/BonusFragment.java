@@ -31,7 +31,7 @@ public class BonusFragment extends Fragment {
         binding.setUser(userDetail);
         if (userDetail.getName()==null) binding.tvName.setText(R.string.empty_phone);
 
-        new CreateQr(userDetail.getName(), userDetail.getId(), binding.ivQr);
+        new CreateQr(userDetail.getName(), binding.ivQr);
 
         return binding.getRoot();
     }

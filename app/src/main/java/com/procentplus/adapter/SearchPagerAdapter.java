@@ -34,8 +34,8 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0: return "По коду объекта";
-            case 1: return "По названию";
+            case 0: return "По названию";
+            case 1: return "По коду объекта";
             //case 2: return "По адресу";
             default: return null;
         }

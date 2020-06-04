@@ -28,6 +28,7 @@ import com.procentplus.retrofit.models.response_bubble.RestResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +72,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
 
         binding.legendBackBtn.setOnClickListener(v -> onBackPressed());
         getBonus(binding.getRoot());
-        new CreateQr(object_name, object_id, binding.ivQr);
+        new CreateQr(object_name, binding.ivQr);
 
     }
 
@@ -111,16 +112,18 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
                     binding.currentUserBonus.setText(bonus.getCurrentDiscount() + "%");
                     String text = "0";
                     if (bonus.getNextBonusFrom()!=null && bonus.getBalance() !=null)
-                        text = (bonus.getNextBonusFrom() - bonus.getBalance()) + "";
+                        text = new Formatter(Locale.US).format("%.1f", (bonus.getNextBonusFrom() - bonus.getBalance())) + "";
 
-                    if (bonus.getNextBonusFrom() == null || bonus.getNextBonusFrom() == 0)
-                        binding.tvBonusText.setText("На данный момент у партнера нет никаких бонусов");
-                    else binding.tvBonusText.setText("До скидки " +
-                            bonus.getNextBonusDiscount() +
-                            "% вам необходимо накопить еще " +
-                            text +
-                            " руб. \nПо данным на " +
-                            new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date()));
+                    if (bonus.isMax())binding.tvBonusText.setText("Пользователь имеет максимальный бонус");
+                    else
+                        if (bonus.getNextBonusFrom() == null || bonus.getNextBonusFrom() == 0)
+                            binding.tvBonusText.setText("На данный момент у партнера нет никаких бонусов");
+                        else binding.tvBonusText.setText("До скидки " +
+                                bonus.getNextBonusDiscount() +
+                                "% вам необходимо накопить еще " +
+                                text +
+                                " руб. \nПо данным на " +
+                                new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date()));
                 }
             }
             @Override
