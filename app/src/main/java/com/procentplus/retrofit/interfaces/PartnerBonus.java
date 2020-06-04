@@ -21,7 +21,7 @@ public interface PartnerBonus {
 
     @Headers("Content-Type: application/json")
     @POST("bonuses/user_bonus")
-    Call<Bonus> getUserBonus(@Header("Authorization") String authorization,
+    Call<UserBonus> getUserBonus(@Header("Authorization") String authorization,
                                  @Body UserBonusRequest partner_id);
 
 }

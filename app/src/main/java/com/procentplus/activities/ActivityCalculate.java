@@ -15,6 +15,7 @@ import com.procentplus.retrofit.interfaces.PartnerBonus;
 import com.procentplus.retrofit.interfaces.SaleRecords;
 import com.procentplus.retrofit.models.Bonus;
 import com.procentplus.retrofit.models.SaleRecordsRequest;
+import com.procentplus.retrofit.models.UserBonus;
 import com.procentplus.retrofit.models.UserBonusRequest;
 
 import java.util.Objects;
@@ -26,13 +27,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class ActivityCalculate extends AppCompatActivity {
-    public String userName;
     public ObservableBoolean isInputSum = new ObservableBoolean(true);
     public ObservableField<String> sumText = new ObservableField<String>("");
 
     ActivityCalculateBinding binding;
     Integer userId, partnerId, operatorId;
     String userBonus;
+    String userName;
     Integer percent = 0, originalPrice = 0;
 
     private Retrofit retrofit;
@@ -73,23 +74,27 @@ public class ActivityCalculate extends AppCompatActivity {
     private void response(){
         partnerBonus = retrofit.create(PartnerBonus.class);
 
-        Call<Bonus> bonusCall = partnerBonus.getUserBonus(
+        Call<UserBonus> bonusCall = partnerBonus.getUserBonus(
                 MainActivity.prefConfig.readToken(),
                 new UserBonusRequest(userId, partnerId)
         );
 
-        bonusCall.enqueue(new Callback<Bonus>() {
+        bonusCall.enqueue(new Callback<UserBonus>() {
             @Override
-            public void onResponse(Call<Bonus> call, Response<Bonus> response) {
+            public void onResponse(Call<UserBonus> call, Response<UserBonus> response) {
+                if (response.body() != null && (response.body()).getErrorsCount() > 0) {
+                    MainActivity.prefConfig.displayToast(response.body().getMsg());
+                    return;
+                }
                 if (response.body()!=null) {
-                    Bonus bonus = response.body();
+                    Bonus bonus = response.body().getBonus();
                     if (bonus.getCurrentDiscount() != null) percent = Integer.parseInt(bonus.getCurrentDiscount());
                     String text = "Бонус: " + percent + "%";
                     binding.tvBonus.setText(text);
                 }else snackBarView(false);
             }
 
-            @Override public void onFailure(Call<Bonus> call, Throwable t) {
+            @Override public void onFailure(Call<UserBonus> call, Throwable t) {
                 snackBarView(false);
             }
         });
