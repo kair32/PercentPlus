@@ -18,25 +18,25 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new ByAddressFragment();
-            case 1: return new ByNameFragment();
-            case 2: return new ByCodeFragment();
+            case 0: return new ByNameFragment();
+            case 1: return new ByCodeFragment();
+            //case 2: return new ByAddressFragment();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0: return "По адресу";
+            case 0: return "По коду объекта";
             case 1: return "По названию";
-            case 2: return "По коду объекта";
+            //case 2: return "По адресу";
             default: return null;
         }
     }

@@ -25,11 +25,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Suppress;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+@Suppress(names = "unused")
+@Deprecated
 public class ByAddressFragment extends Fragment {
 
     private ISearch iSearch;
