@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.procentplus.activities.MainActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,30 +24,30 @@
         </activity>
         <activity
             android:name="com.procentplus.activities.ObjectsActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.procentplus.legend.LegendActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.procentplus.activities.AuthActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.procentplus.activities.BonusActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.procentplus.activities.RestorePasswordActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ActivityCalculate"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.procentplus.activities.RegisterActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity android:name="com.procentplus.activities.ConfirmEmailActivity"
-            android:screenOrientation="fullSensor"/>
+            android:screenOrientation="portrait"/>
         <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:clearTaskOnLaunch="true"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:replace="screenOrientation"
             android:stateNotNeeded="true">
             <intent-filter>
