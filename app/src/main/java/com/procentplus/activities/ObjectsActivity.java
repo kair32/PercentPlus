@@ -1,6 +1,8 @@
 package com.procentplus.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,8 +16,10 @@ import com.procentplus.R;
 import com.procentplus.adapter.ObjectsAdapter;
 import com.procentplus.adapter.SearchAdapter;
 import com.procentplus.retrofit.RetrofitClient;
+import com.procentplus.retrofit.interfaces.ILogout;
 import com.procentplus.retrofit.interfaces.IObjects;
 import com.procentplus.retrofit.models.BonusData;
+import com.procentplus.retrofit.models.CategoriesResponse;
 import com.procentplus.retrofit.models.Objects;
 import com.procentplus.retrofit.models.ObjectsRequest;
 import com.procentplus.retrofit.models.Partner;
@@ -69,6 +73,9 @@ public class ObjectsActivity extends AppCompatActivity implements View.OnClickLi
         itemDecorator.setDrawable(this.getResources().getDrawable(R.drawable.divider));
         categoryRecyclerView.addItemDecoration(itemDecorator);
 
+        ImageView logout_btn = findViewById(R.id.logout);
+        logout_btn.setOnClickListener(view1 -> logout());
+
         if (getIntent().getExtras() != null) {
             // if activity is opened from search
             if (getIntent().getBundleExtra("searchList") != null) {
@@ -95,6 +102,30 @@ public class ObjectsActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void logout() {
+        ILogout iLogout = retrofit.create(ILogout.class);
+
+        Call<CategoriesResponse> call = iLogout.logOut(MainActivity.prefConfig.readToken());
+
+        call.enqueue(new Callback<CategoriesResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesResponse> call, Response<CategoriesResponse> response) {
+                int statusCode = response.code();
+                Log.d("LOGGER Logout", "statusCode: " + statusCode);
+                if (statusCode == 200 || statusCode == 204) {
+                    MainActivity.prefConfig.writeLoginStatus(false);
+                    Intent intent = new Intent(ObjectsActivity.this, AuthActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesResponse> call, Throwable t) {
+                MainActivity.prefConfig.displayToast("Произошла ошибка при попытке выхода из профиля");
+            }
+        });
+    }
     private void getObjects() {
         iObjects = retrofit.create(IObjects.class);
 
