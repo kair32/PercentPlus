@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -20,9 +21,11 @@ import com.procentplus.R;
 import com.procentplus.databinding.ActivityBonusBinding;
 import com.procentplus.legend.LegendActivity;
 import com.procentplus.retrofit.RetrofitClient;
+import com.procentplus.retrofit.interfaces.ILogout;
 import com.procentplus.retrofit.interfaces.PartnerBonus;
 import com.procentplus.retrofit.models.Bonus;
 import com.procentplus.retrofit.models.BonusRequest;
+import com.procentplus.retrofit.models.CategoriesResponse;
 import com.procentplus.retrofit.models.UserBonus;
 import com.procentplus.retrofit.models.response_bubble.RestResponse;
 
@@ -65,6 +68,7 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
         binding.bonusObjectName.setText(object_name);
         binding.iconInfo.setOnClickListener(this);
 
+        binding.logout.setOnClickListener(view1 -> logout());
         TextView how_to_get_percent = binding.howToGetPercent;
         how_to_get_percent.setText("Как накопить процент");
         how_to_get_percent.setPaintFlags(how_to_get_percent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -87,6 +91,31 @@ public class BonusActivity extends AppCompatActivity implements View.OnClickList
         mAnimation.setRepeatMode(Animation.REVERSE);
         mAnimation.setInterpolator(new LinearInterpolator());
         binding.animatingCircle.setAnimation(mAnimation);
+    }
+
+    private void logout() {
+        ILogout iLogout = retrofit.create(ILogout.class);
+
+        Call<CategoriesResponse> call = iLogout.logOut(MainActivity.prefConfig.readToken());
+
+        call.enqueue(new Callback<CategoriesResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesResponse> call, Response<CategoriesResponse> response) {
+                int statusCode = response.code();
+                Log.d("LOGGER Logout", "statusCode: " + statusCode);
+                if (statusCode == 200 || statusCode == 204) {
+                    MainActivity.prefConfig.writeLoginStatus(false);
+                    Intent intent = new Intent(BonusActivity.this, AuthActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesResponse> call, Throwable t) {
+                MainActivity.prefConfig.displayToast("Произошла ошибка при попытке выхода из профиля");
+            }
+        });
     }
 
     private void getBonus(final View view) {
