@@ -22,11 +22,21 @@ import com.procentplus.CreateQr;
 import com.procentplus.Permission;
 import com.procentplus.R;
 import com.procentplus.activities.ActivityCalculate;
+import com.procentplus.activities.AuthActivity;
+import com.procentplus.activities.MainActivity;
 import com.procentplus.databinding.FragmentScannerBinding;
+import com.procentplus.retrofit.RetrofitClient;
+import com.procentplus.retrofit.interfaces.ILogout;
 import com.procentplus.retrofit.models.AuthResponse;
+import com.procentplus.retrofit.models.CategoriesResponse;
 import com.procentplus.retrofit.models.User;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class QrScannerFragment extends Fragment implements BarcodeCallback {
@@ -36,6 +46,7 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
     private FragmentScannerBinding binding;
     private DecoratedBarcodeView cameraPreview;
     private User userDetail;
+    private Retrofit retrofit;
 
     public QrScannerFragment(User userDetail){
         this.userDetail = userDetail;
@@ -63,11 +74,14 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
         isCameraPermission.set(new Permission(this.getContext()).requestCamera(this));
         binding = FragmentScannerBinding.inflate(inflater, container, false);
         binding.setFragment(this);
+        // init api
+        retrofit = RetrofitClient.getInstance();
         cameraPreview = binding.decoratedBarcodeView;
         cameraPreview.resume();
         cameraPreview.decodeSingle(this);
         cameraPreview.setStatusText("");
 
+        binding.logout.setOnClickListener(view1 -> logout());
         return binding.getRoot();
     }
     @Override
@@ -116,4 +130,29 @@ public class QrScannerFragment extends Fragment implements BarcodeCallback {
 
     @Override
     public void possibleResultPoints(List<ResultPoint> resultPoints) { }
+
+    private void logout() {
+        ILogout iLogout = retrofit.create(ILogout.class);
+
+        Call<CategoriesResponse> call = iLogout.logOut(MainActivity.prefConfig.readToken());
+
+        call.enqueue(new Callback<CategoriesResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesResponse> call, Response<CategoriesResponse> response) {
+                int statusCode = response.code();
+                Log.d("LOGGER Logout", "statusCode: " + statusCode);
+                if (statusCode == 200 || statusCode == 204) {
+                    MainActivity.prefConfig.writeLoginStatus(false);
+                    Intent intent = new Intent(getContext(), AuthActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesResponse> call, Throwable t) {
+                MainActivity.prefConfig.displayToast("Произошла ошибка при попытке выхода из профиля");
+            }
+        });
+    }
 }
