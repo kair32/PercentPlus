@@ -35,8 +35,10 @@ public class BindingAdapters {
             @Override//"+7 (965) 368-4111"
             public void onTextChanged(boolean maskFilled, @NotNull String extractedValue, @NotNull String s1) {
                 String text = editText.getText().toString();
-                if (extractedValue.equals("") && (text.equals("+7")))
+                if (extractedValue.equals("") && (text.equals("+7"))) {
                     editText.setText("+7 ");
+                    editText.setSelection(editText.length());
+                }
                 value.phone.set(editText.getText().toString());
                 Log.d("TEGOZ", " " + value.phone);
             }
@@ -45,12 +47,15 @@ public class BindingAdapters {
             public void onFocusChange(@Nullable View view, boolean hasFocus) {
                 super.onFocusChange(view, hasFocus);
                 String text = editText.getText().toString();
-                if (hasFocus && text.equals("")) editText.setText("+7 ");
+                if (hasFocus && text.equals("")) {
+                    editText.setText("+7 ");
+                }
                 else if (!hasFocus && text.equals("+7 ")) editText.setText("");
+                editText.setSelection(editText.length());
+                Log.d("TEGOZ","" + editText.length());
             }
         };
         editText.addTextChangedListener(listener);
         editText.setOnFocusChangeListener(listener);
-        return;
     }
 }

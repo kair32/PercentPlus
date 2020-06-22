@@ -108,7 +108,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
         Call<AuthResponse> authResponseCall = iAuthorization.getAccountData(
                 new SignRequest(
-                        new MobileUser(phone, password))
+                        new MobileUser(phone.substring(0,17), password))
         );
 
         authResponseCall.enqueue(new Callback<AuthResponse>() {
