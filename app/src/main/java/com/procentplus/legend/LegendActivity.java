@@ -18,6 +18,7 @@ import com.procentplus.retrofit.models.BonusRequest;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +64,14 @@ public class LegendActivity extends AppCompatActivity implements View.OnClickLis
                         for (int i = 0; i < response.body().getPartnerList().size(); i++){
                             bonusDataList.addAll(response.body().getPartnerList().get(i).getBonus());
                         }
-                        Collections.sort(bonusDataList, (contact, another) -> contact.getPercent().compareToIgnoreCase(another.getPercent()));
+                        Collections.sort(bonusDataList, (o1, o2) -> {
+                            int result = 0;
+                            try {
+                                if(Double.parseDouble(o1.getPercent()) ==  Double.parseDouble(o2.getPercent()) == true) result = 1;
+                            }
+                            catch (NumberFormatException ignored){}
+                            return result;
+                        });
                         binding.rv.setAdapter(new LegendAdapter(bonusDataList));
                     }
                 } else onBackPressed();

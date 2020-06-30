@@ -18,7 +18,11 @@ import com.procentplus.retrofit.models.SaleRecordsRequest;
 import com.procentplus.retrofit.models.UserBonus;
 import com.procentplus.retrofit.models.UserBonusRequest;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -116,7 +120,6 @@ public class ActivityCalculate extends AppCompatActivity {
     private void setSumResponse(){
         SaleRecords saleRecords = retrofit.create(SaleRecords.class);
 
-
         Call<ResponseBody> bonusCall = saleRecords.setSaleRecords(
                 MainActivity.prefConfig.readToken(),
                 new SaleRecordsRequest(new SaleRecordsRequest.SaleRecord(userId, percent, originalPrice))
@@ -125,7 +128,10 @@ public class ActivityCalculate extends AppCompatActivity {
         bonusCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == 200) finish();
+                if (response.code() == 200) {
+                    MainActivity.prefConfig.displayToast("Успешно");
+                    finish();
+                }
                 else                        snackBarView(true);
             }
 

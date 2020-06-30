@@ -23,15 +23,11 @@ public class SaleRecordsRequest {
         @SerializedName("original_price")
         @Expose
         private Integer originalPrice;
-        @SerializedName("date")
-        @Expose
-        private String date;
 
         public SaleRecord(Integer userId, Integer discount, Integer originalPrice){
             this.userId = userId;
             this.discount = discount;
             this.originalPrice = originalPrice;
-            date = "2019-05-05 14:49:54";
         }
 
         public Integer getMobileUserId() { return userId; }
